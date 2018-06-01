@@ -56,3 +56,41 @@ aside{
   text-align: center;
   cursor: pointer;
 }
+
+/* main区域 */
+main{
+  background: #d4d4d4;
+}
+main > h1{
+  margin: 20px;
+}
+.form {
+  font-size: 14px;
+}
+.form > .row{
+  margin: 20px;
+  display: flex;
+
+}
+.form > .row > label{
+  display: flex;
+  width: 4em;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 5px;
+}
+.form input[type=text]{
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  height: 30px;
+}
+
+.form input[type=button],
+.form input[type=submit],
+.form button{
+  height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
