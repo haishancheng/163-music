@@ -4,31 +4,60 @@
 <head>
   <meta charset="UTF-8">
   <title>管理页面</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    #uploadArea {
-      border: 2px dashed #ddd;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      width: 200px;
-      padding: 50px 80px;
-      border-radius: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="./css/default.css">
 </head>
 
 <body>
-  <div id="uploadArea">
-    <button id="upload">上传</button>
+  <div class="page">
+    <aside>
+      <div class="newSong">新建歌曲</div>
+      <ul class="songList">
+        <li>歌曲1</li>
+        <li>歌曲2</li>
+        <li>歌曲3</li>
+        <li>歌曲4</li>
+        <li>歌曲5</li>
+        <li>歌曲6</li>
+        <li>歌曲7</li>
+        <li>歌曲8</li>
+        <li>歌曲9</li>
+        <li>歌曲10</li>
+      </ul>
+      <div id="uploadContainer" class="draggable">
+        <div id="uploadButton" class="clickable">
+          <span >点击或拖曳文件</span>
+          <p>文件大小不能超过40MB</p>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <form>
+        <div class="row">
+          <label>
+            歌名
+            <input type="text">
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            歌手
+            <input type="text">
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            外链
+            <input type="text">
+          </label>
+        </div>
+        <div class="row">
+          <button type="submit">保存</button>
+        </div>
+      </form>
+    </main>
   </div>
-  <div id="uploadStatus"></div>
-  <audio controls src="http://p9lfootse.bkt.clouddn.com/%E5%AD%A4%E7%8B%AC%E3%81%AA%E5%B7%A1%E7%A4%BC.mp3"></audio>
+
+
   <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
   <script>
     var APP_ID = 'IbKHNlRGRAFjYmmzC1gxhtdE-gzGzoHsz';
@@ -45,13 +74,13 @@
   <script>
     var uploader = Qiniu.uploader({
       runtimes: 'html5', // 上传模式，依次退化
-      browse_button: 'upload', // 上传选择的点选按钮，必需
+      browse_button: 'uploadButton', // 上传选择的点选按钮，必需
       uptoken_url: 'http://127.0.0.1:8888/uptoken', // Ajax请求uptoken的Url，强烈建议设置（服务端提供），uptoken是上传凭证
       get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的uptoken
-      domain: 'http://qiniu-plupload.qiniudn.com/', // bucket域名，下载资源时用到，必需
+      domain: 'p9lfootse.bkt.clouddn.com', // bucket域名，下载资源时用到，必需
       max_file_size: '40mb', // 最大文件体积限制
       dragdrop: true, // 开启可拖曳上传
-      drop_element: 'uploadArea', // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+      drop_element: 'uploadContainer', // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
       auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
       init: {
         'FilesAdded': function (up, files) {
@@ -71,15 +100,12 @@
         'FileUploaded': function (up, file, info) {
           uploadStatus.textContent = '上传完毕'
           // 每个文件上传成功后，处理相关的事情
-          // 其中info.response是文件上传成功后，服务端返回的json，形式如：
-          // {
-          //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
-          //    "key": "gogopher.jpg"
-          //  }
-          // 查看简单反馈
-          // var domain = up.getOption('domain');
-          // var res = parseJSON(info.response);
-          // var sourceLink = domain +"/"+ res.key; 获取上传成功后的文件的Url
+          var domain = up.getOption('domain');
+          var response = JSON.parse(info.response);
+          console.log(response)
+          // 获取上传成功后的文件的Url
+          var sourceLink = "http://" + domain + "/" + encodeURIComponent(response.key);
+          console.log(sourceLink)
         },
         'Error': function (up, err, errTip) {
           //上传出错时，处理相关的事情
