@@ -36,8 +36,10 @@ aside{
 .newSong.active{
   background: #d4d4d4;
 }
-.songList{
+#songList-container{
   flex-grow: 1;
+}
+.songList{
   text-align: left;
   border-top: 1px solid #888;
 }
@@ -71,6 +73,9 @@ main > h1{
   margin: 20px;
   display: flex;
 
+}
+.form > .row.actions{
+  margin-left: calc(4em + 25px);
 }
 .form > .row > label{
   display: flex;
