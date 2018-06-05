@@ -29,7 +29,6 @@
     fetch(){
       var query = new AV.Query('Song');
       return query.find().then((songs) => {
-        
         this.data.songs = songs.map((song) => {
           return {id: song.id, ...song.attributes}
         })
@@ -56,7 +55,17 @@
       $(this.view.el).on('click', 'li', (e) => {
         this.view.activeItem(e.currentTarget)
         let songId = $(e.currentTarget).attr('data-song-id')
-        window.eventHub.emit('select', {id: songId})
+        let songs = this.model.data.songs
+        let data
+        for(let i = 0; i < songs.length; i++){
+          if(songs[i].id === songId){
+            data = songs[i]
+            break
+          }
+        }
+        //深拷贝一下在发布
+        let object = JSON.parse(JSON.stringify(data))
+        window.eventHub.emit('select', object)
       })
     },
     bindEventHub(){
