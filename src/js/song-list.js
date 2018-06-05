@@ -10,9 +10,12 @@
       $(this.el).find('.songList').empty()
       let {songs} = data
       songs.map((song) => {
-        let $li = $('<li></li>').text(song.name)
+        let $li = $('<li></li>').text(song.name).attr('data-song-id', song.id)
         $(this.el).find('.songList').append($li)
       })
+    },
+    activeItem(li){
+      $(li).addClass('active').siblings('.active').removeClass('active')
     },
     clearActive(){
       $(this.el).find('.active').removeClass('active')
@@ -40,14 +43,28 @@
       this.model = model
       //将ul渲染进模板
       this.view.render(this.model.data)
+      this.bindEvents()
+      this.bindEventHub()
+      this.getAllSongs()
+    },
+    getAllSongs(){
+      return this.model.fetch().then(() => {
+        this.view.render(this.model.data)
+      })
+    },
+    bindEvents(){
+      $(this.view.el).on('click', 'li', (e) => {
+        this.view.activeItem(e.currentTarget)
+        let songId = $(e.currentTarget).attr('data-song-id')
+        window.eventHub.emit('select', {id: songId})
+      })
+    },
+    bindEventHub(){
       window.eventHub.on('upload', () => {
         this.view.clearActive()
       })
       window.eventHub.on('create', (songData) => {
         this.model.data.songs.push(songData)
-        this.view.render(this.model.data)
-      })
-      this.model.fetch().then(() => {
         this.view.render(this.model.data)
       })
     }
