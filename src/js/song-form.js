@@ -2,7 +2,6 @@
   let view = {
     el: ".page > main",
     template: `
-      <h1>新建歌曲</h1>
       <form class="form">
         <div class="row">
           <label>歌名</label>
@@ -28,6 +27,14 @@
         html = html.replace(`__${placeholder}__`, data[placeholder] || '')//data[placeholder]为undefined的话就换成''
       })
       $(this.el).html(html)
+      if(data.id){
+        //渲染的时候有id传过来就是编辑歌曲
+        $(this.el).prepend('<h1>编辑歌曲</h1>')
+      }else{
+        // 否则就是新建歌曲
+        $(this.el).prepend('<h1>新建歌曲</h1>')
+      }
+      
     },
     reset(){
       this.render({})
@@ -65,6 +72,9 @@
       window.eventHub.on('select', (data) => {
         this.model.data = data
         this.view.render(this.model.data)
+      })
+      window.eventHub.on('new',() => {
+        this.view.reset()
       })
     },
     bindEvents(){

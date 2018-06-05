@@ -34,6 +34,7 @@ aside{
 .newSong{
   padding: 10px;
   text-align: center;
+  cursor: pointer;
 }
 .newSong.active{
   background: #d4d4d4;
@@ -48,6 +49,7 @@ aside{
 .songList > li{
   border-bottom: 1px solid #ddd;
   padding: 10px;
+  cursor: pointer;
 }
 .songList > li.active{
   background: #d4d4d4;
