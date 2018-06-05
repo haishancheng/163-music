@@ -74,7 +74,12 @@
         this.view.render(this.model.data)
       })
       window.eventHub.on('new',() => {
-        this.view.reset()
+        //根据有没有data中有没有id来判断form是否清空
+        //点击歌曲列表之后, 此模块得到的data中是有id的，此时点击新建歌曲，需要清空form
+        //上传完毕后, 此模块得到的data中是没有id的，此时点击新建歌曲，不需要清空form，因为用户正在编辑上传的歌曲
+        if(this.model.data.id){
+          this.view.reset()
+        }
       })
     },
     bindEvents(){
