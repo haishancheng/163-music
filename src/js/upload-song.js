@@ -40,7 +40,7 @@
             var response = JSON.parse(info.response);
             // 获取上传成功后的文件的Url
             var sourceLink = "http://" + domain + "/" + encodeURIComponent(response.key);
-            window.eventHub.emit('upload', {url: sourceLink, name: response.key})
+            window.eventHub.emit('new', {url: sourceLink, name: response.key})
           },
           'Error': function (up, err, errTip) {
             //上传出错时，处理相关的事情

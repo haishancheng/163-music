@@ -18,7 +18,7 @@
       this.view.render(this.model.data)
       this.active()
       this.bindEvents()
-      window.eventHub.on('upload',() => {
+      window.eventHub.on('new',() => {
         this.active()
       })
       window.eventHub.on('select', (data) => {

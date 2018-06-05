@@ -55,6 +55,7 @@
         // ②...attributes表示将attribute中的内容，加入到目前对象中
         // ③所以{id: id, name: attributes.name, singer: attributes.singer, url: attributes.url}这一大串就变成了
         Object.assign(this.data, {id, ...attributes})
+        console.log('存入后得到的值', this.data)
       })
     },
     update(data){
@@ -74,25 +75,30 @@
       this.model = model
       this.view.render(this.model.data)
       this.bindEvents()
-      window.eventHub.on('upload',(data) => {
-        this.model.data = data
-        this.view.render(this.model.data)
-      })
       window.eventHub.on('select', (data) => {
         this.model.data = data
         this.view.render(this.model.data)
       })
       window.eventHub.on('new',(data) => {
-        //根据有没有data中有没有id来判断form是否清空，因为id只有在存入过数据库才会有
-        //上传完毕后, 此模块得到的data中是没有id的，此时点击新建歌曲，不需要清空form，因为用户正在编辑上传的歌曲（此歌曲还未存入数据库）}
-        //点击歌曲列表之后, 此模块得到的data中是有id的，此时点击新建歌曲，需要清空form
         if(this.model.data.id){
-          this.model.data = {name:'', singer:'', url:'', id:''}
-          this.view.reset()
+          //只有在点击歌曲列表之后,才有id
+          //点击歌曲列表之后, song-list模块会将id传过来，此时this.model.data.id有数据的
+          if(data===undefined){
+            // 点击歌曲列表后，点击新建歌曲
+            this.model.data = {name:'', singer:'', url:'', id:''}
+          } else {
+            // 点击歌曲列表后，点击操作上传歌曲
+            this.model.data = data
+          }
+        }else{
+          //不点击歌曲列表
+          Object.assign(this.model.data, data)
         }
+        this.view.render(this.model.data)
       })
     },
-    save(){
+    create(){
+      console.log(1)
       let needs = ['name', 'singer', 'url']
       let data = {}
       needs.map((need) => {
@@ -110,9 +116,12 @@
         var obj = JSON.parse(string)
         /* ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆ */
         window.eventHub.emit('create', obj)
+        //不重置的话，连续存会有问题
+        this.model.data = {name:'', singer:'', url:'', id:''}
       })
     },
     update(){
+      console.log(2)
       let needs = ['name', 'singer', 'url']
       let data = {}
       needs.map((need) => {
@@ -130,7 +139,7 @@
           this.update()
         }else{
           //id不存在，相当于未存入数据库的，新建的歌曲
-          this.save()
+          this.create()
         }
 
         

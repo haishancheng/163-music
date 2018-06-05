@@ -8,14 +8,14 @@
     render(data){
       $(this.el).html(this.template)
       $(this.el).find('.songList').empty()
-      let {songs} = data
+      let {songs, selectSongId} = data
       songs.map((song) => {
         let $li = $('<li></li>').text(song.name).attr('data-song-id', song.id)
+        if(song.id === selectSongId){
+          $li.addClass('active')
+        }
         $(this.el).find('.songList').append($li)
       })
-    },
-    activeItem(li){
-      $(li).addClass('active').siblings('.active').removeClass('active')
     },
     clearActive(){
       $(this.el).find('.active').removeClass('active')
@@ -24,7 +24,8 @@
 
   let model = {
     data: {
-      songs: []
+      songs: [],
+      selectSongId: undefined
     },
     fetch(){
       var query = new AV.Query('Song');
@@ -53,10 +54,12 @@
     },
     bindEvents(){
       $(this.view.el).on('click', 'li', (e) => {
-        this.view.activeItem(e.currentTarget)
         let songId = $(e.currentTarget).attr('data-song-id')
-        let songs = this.model.data.songs
+        this.model.data.selectSongId = songId
+        this.view.render(this.model.data)
+
         let data
+        let songs = this.model.data.songs
         for(let i = 0; i < songs.length; i++){
           if(songs[i].id === songId){
             data = songs[i]
@@ -69,11 +72,9 @@
       })
     },
     bindEventHub(){
-      window.eventHub.on('upload', () => {
-        this.view.clearActive()
-      })
       window.eventHub.on('create', (songData) => {
         this.model.data.songs.push(songData)
+        this.model.data.selectSongId = undefined
         this.view.render(this.model.data)
       })
       window.eventHub.on('new', () => {
@@ -86,6 +87,8 @@
             songs[i] = data
           }
         }
+        // this.model.data.selectSongId = undefined
+        console.log(this.model.data)
         this.view.render(this.model.data)
       })
     }
