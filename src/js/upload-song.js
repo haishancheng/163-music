@@ -2,6 +2,13 @@
   let view = {
     el: '.uploadArea',
     // template中没有数据变化的可以不弄过来，所以new-song.js中的view也可以不弄template
+    loadProgressBar(percent){
+      let width = $(this.el).find('.loading').width(percent + '%').width()
+      $(this.el).find('.loading').width(width - 6)
+    },
+    resetLoadProgressBar(){
+      $(this.el).find('.loading').width(0)
+    }
   }
   let model = {
     data: {
@@ -40,10 +47,12 @@
             this.model.data.isloading = true;
 
           },
-          'UploadProgress': function (up, file) {
+          'UploadProgress': (up, file) => {
             // 每个文件上传时，处理相关的事情
+            this.view.loadProgressBar(file.percent)
           },
           'FileUploaded': (up, file, info) => {
+            this.view.resetLoadProgressBar()
             this.model.data.isloading = false
             window.eventHub.emit('afterUpload')
             // 每个文件上传成功后，处理相关的事情

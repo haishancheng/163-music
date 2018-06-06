@@ -55,7 +55,20 @@ aside{
 .songList > li.active{
   background: #d4d4d4;
 }
-.draggable .clickable{
+.uploadArea{
+  position: relative;
+}
+.uploadArea .loading{
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  margin-left: 3px;
+  width: 0%;
+  background: #428bca;
+  border-radius: 4px;
+}
+.uploadArea .draggable .clickable{
   width: 200px;
   border: 2px dashed #ddd;
   border-radius: 4px;
@@ -63,7 +76,7 @@ aside{
   text-align: center;
   cursor: pointer;
 }
-.draggable .clickable:hover{
+.uploadArea .draggable .clickable:hover{
   background: #e6e6e6;
 }
 
