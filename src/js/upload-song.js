@@ -3,7 +3,11 @@
     el: '.uploadArea',
     // template中没有数据变化的可以不弄过来，所以new-song.js中的view也可以不弄template
   }
-  let model = {}
+  let model = {
+    data: {
+      isloading: false
+    }
+  }
   let controller = {
     init(view, model) {
       this.view = view
@@ -27,14 +31,21 @@
               // 文件添加进队列后，处理相关的事情
             });
           },
-          'BeforeUpload': function (up, file) {
+          'BeforeUpload': (up, file) => {
+            if(this.model.data.isloading){
+              return
+            }
             // 每个文件上传前，处理相关的事情
+            window.eventHub.emit('beforeUpload')
+            this.model.data.isloading = true;
 
           },
           'UploadProgress': function (up, file) {
             // 每个文件上传时，处理相关的事情
           },
-          'FileUploaded': function (up, file, info) {
+          'FileUploaded': (up, file, info) => {
+            this.model.data.isloading = false
+            window.eventHub.emit('afterUpload')
             // 每个文件上传成功后，处理相关的事情
             var domain = up.getOption('domain');
             var response = JSON.parse(info.response);
@@ -43,6 +54,7 @@
             window.eventHub.emit('new', {url: sourceLink, name: response.key})
           },
           'Error': function (up, err, errTip) {
+            this.model.data.isloading = false
             //上传出错时，处理相关的事情
           },
           'UploadComplete': function () {

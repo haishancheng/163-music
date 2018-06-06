@@ -87,8 +87,6 @@
             songs[i] = data
           }
         }
-        // this.model.data.selectSongId = undefined
-        console.log(this.model.data)
         this.view.render(this.model.data)
       })
     }
