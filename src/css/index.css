@@ -147,8 +147,8 @@ section.newestMusic .songList .playButton{
   transform: translateY(-50%);
 }
 section.newestMusic .songList .icon-play{
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
   vertical-align: middle;
   color: #AAA;
 }

@@ -2,29 +2,28 @@
   let view = {
     el: 'section.newestMusic',
     template: `
-      <h2 class="sectionTitle">最新音乐</h2>
-      <ol class="songList">
-      </ol>
+      <li>
+        <h3>{{name}}</h3>
+        <p>{{singer}}</p>
+        <a class="playButton" href="./song.html?id={{id}}">
+          <svg class="icon icon-play" aria-hidden="true">
+              <use xlink:href="#icon-play"></use>
+          </svg>
+        </a>
+      </li>
     `,
     
     init(){
       this.$el = $(this.el)
     },
     render(data){
-      this.$el.html(this.template)
       let {songs} = data
       songs.map((song) => {
-        let $li = $(`
-          <li>
-            <h3>${song.name}</h3>
-            <p>${song.singer}</p>
-            <a class="playButton" href="#">
-              <svg class="icon icon-play" aria-hidden="true">
-                  <use xlink:href="#icon-play"></use>
-              </svg>
-            </a>
-          </li>
-        `)
+        let $li = $(
+          this.template.replace('{{name}}', song.name)
+            .replace('{{singer}}', song.singer)
+            .replace('{{id}}', song.id)
+        )
         this.$el.find('ol.songList').append($li)
       })
     }
