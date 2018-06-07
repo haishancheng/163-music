@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>我的云音乐</title>
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_697646_duiq7pf9m9sk0529.css">
   <link rel="stylesheet" href="./css/index.css">
+  <style>
+    #page2, #page3{
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="page tabs">
-    <div class="sticky">
-      <section class="topbar">
-        <div class="logo">
-          <svg class="topsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 50">
+  <header>
+    <section class="topBar">
+      <div class="logo">
+          <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 50">
             <g fill="#fff">
               <path d="m36.37 14.412c-2.115-1.367-4.707-2.117-7.377-2.251l-.595-2.174.018.021c-.023-.064-.043-.127-.063-.189l-.176-.643c-.406-1.86.333-2.748.713-3.067.064-.048.131-.097.204-.145 1.74-1.154 4.218.695 4.357.804 1.1 1.055 3.112 1.315 4.198.236 1.098-1.091.836-3.132-.261-4.223-1.708-1.698-6.95-4.426-11.41-1.467-4.01 2.659-4.09 6.402-3.431 8.565l.8 2.927c-1.339.383-2.624.933-3.797 1.647-4.391 2.676-6.594 7.192-6.04 12.391.564 5.335 4.575 9.208 9.536 9.208 5.267 0 9.551-4.262 9.551-9.501-.071-1.251-.057-1.236-.226-2.354-.165-1.091-1.783-6.218-1.783-6.218.994.229 1.923.602 2.725 1.12 9.06 5.856 5.289 15.176 5.118 15.583-2.495 5.954-7.934 9.509-14.923 9.754-4.555.16-8.919-1.535-12.289-4.772-3.554-3.41-5.591-8.189-5.591-13.11 0-7.414 4.687-14.14 11.662-16.749 1.453-.542 2.625-2.087 1.822-3.881-.632-1.41-2.344-1.895-3.796-1.352-9.156 3.418-15.307 12.251-15.307 21.981 0 6.43 2.664 12.675 7.308 17.14 4.283 4.111 9.793 6.349 15.595 6.349.264 0 .529-.004.793-.014 9.142-.32 16.585-5.251 19.9-13.164 2.071-4.807 3.225-15.684-7.231-22.445m-9.396 12.139c0 2.157-1.764 3.911-3.933 3.911-2.407 0-3.734-2.179-3.949-4.204-.408-3.861 1.619-5.959 3.392-7.04.719-.438 1.509-.781 2.335-1.029 0 0 1.912 6.05 2.061 6.99.164 1.037.094 1.372.094 1.372"></path>
               <path d="m80.12 40.04c0 0-.333-2.724 0-3.144 7.73-9.758 7.56-22.887 7.56-22.887h4.738c-.082.452-2.448 16.971-12.298 26.03"></path>
@@ -42,72 +45,73 @@
               <path d="m244.15 44.12c-.369.664 0 .904 0 .904 3.641-.994 8.617-6.405 9.83-15h-5.203c0 0-1.152 7.844-4.627 14.1"></path>
             </g>
           </svg>
-        </div>
-        <a href="#">下载APP</a>
-      </section>
-      <section id="tabs" class="globalTabs">
-        <ol class="tabs-nav">
-          <li class=active data-tab-name="page-1">
-            <div class="text"> 推荐音乐 </div>
-          </li>
-          <li data-tab-name="page-2">
-            <div class="text">热歌榜</div>
-          </li>
-          <li data-tab-name="page-3">
-            <div class="text">搜索</div>
-          </li>
-        </ol>
-      </section>
-    </div>
-    <ol class="tab-content noCollapse">
-      <li class="page-1 active">
-        <section class="playlists">
+      </div>
+      <a href="#">下载APP</a>
+    </section>
+    <section class="topTabs">
+      <ol class="topTabsNav">
+        <li class="active">
+          <span class="text">推荐音乐</span>
+        </li>
+        <li>
+          <span class="text">热歌榜</span>
+        </li>
+        <li>
+          <span class="text">搜索</span>
+        </li>
+      </ol>
+    </section>
+  </header>
+  <main>
+    <ol>
+      <li id="page1" class="active">
+        <section class="songSheet">
           <h2 class="sectionTitle">推荐歌单</h2>
-          <ol class="songs">
+          <ol class="songSheetList">
             <li>
-              <div class="cover">
-                <img width=105 src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
+              <p>两行文字两行文字44444444444444两行文字两行文字两行文字</p>
+            </li>
+            <li>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
               <p>两行文字两行文字两行文字两行文字两行文字</p>
             </li>
             <li>
-              <div class="cover">
-                <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
-              <p>两行文字两行文字两行文字两行文字</p>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
+              <p>两行文字两行文字两行文字两行文字两行文字</p>
             </li>
             <li>
-              <div class="cover">
-                <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
-              <p>两行文字两行文字两行文字两行文字</p>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
+              <p>两行文字两行文字两行文字两行文字两行文字</p>
             </li>
             <li>
-              <div class="cover">
-                <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
-              <p>两行文字两行文字两行文字两行文字</p>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
+              <p>两行文字两行文字两行文字两行文字两行文字</p>
             </li>
             <li>
-              <div class="cover">
-                <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
-              <p>两行文字两行文字两行文字两行文字</p>
-            </li>
-            <li>
-              <div class="cover">
-                <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
-              </div>
-              <p>两行文字两行文字两行文字两行文字</p>
+              <img src="https://i.loli.net/2017/08/22/599ba7a0aea8b.jpg" alt="封面">
+              <p>两行文字两行文字两行文字两行文字两行文字</p>
             </li>
           </ol>
         </section>
-        <section class="songs">
+        <section class="newestMusic">
           <h2 class="sectionTitle">最新音乐</h2>
-          <ol id="songs" class="list">
-            <div id="songs-loading" class="square-spin" style="margin: 0 auto; width: 50px;">
-              <div></div>
-            </div>
+          <ol class="songList">
+            <li>
+              <h3>远远的时光</h3>
+              <p>吉克隽逸</p>
+              <i class="iconfont icon-play"></i>
+            </li>
+            <li>
+              <h3>远远的时光</h3>
+              <p>吉克隽逸</p>
+              <i class="iconfont icon-play"></i>
+            </li>
+            <li>
+              <h3>远远的时光</h3>
+              <p>吉克隽逸</p>
+              <i class="iconfont icon-play"></i>
+            </li>
           </ol>
         </section>
         <section class="art">
@@ -151,13 +155,9 @@
           </div>
         </section>
       </li>
-      <li class="page-2">page 2</li>
-      <li class="page-3">
-        <input id="search" type="text" style="background:#EBECEC;">
-        <ol id="searchResult"></ol>
-      </li>
+      <li id="page2">page2</li>
+      <li id="page3">page3</li>
     </ol>
-  </div>
+  </main>
 </body>
-
 </html>
