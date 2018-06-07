@@ -7,9 +7,6 @@
   <link rel="stylesheet" href="//at.alicdn.com/t/font_697646_duiq7pf9m9sk0529.css">
   <link rel="stylesheet" href="./css/index.css">
   <style>
-    #page2, #page3{
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -50,13 +47,13 @@
     </section>
     <section class="topTabs">
       <ol class="topTabsNav">
-        <li class="active">
+        <li class="active" data-tab-name="page1">
           <span class="text">推荐音乐</span>
         </li>
-        <li>
+        <li data-tab-name="page2">
           <span class="text">热歌榜</span>
         </li>
-        <li>
+        <li data-tab-name="page3">
           <span class="text">搜索</span>
         </li>
       </ol>
@@ -159,5 +156,13 @@
       <li id="page3">page3</li>
     </ol>
   </main>
+  <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
+  <script src="./js/initializers/av.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="./js/admin/event-hub.js"></script>
+  <script src="./js/index/tabs.js"></script>
+  <script src="./js/index/page1.js"></script>
+  <script src="./js/index/page2.js"></script>
+  <script src="./js/index/page3.js"></script>
 </body>
 </html>
