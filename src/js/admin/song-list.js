@@ -1,20 +1,35 @@
 {
   let view = {
-    el: "#songList-container",
+    el: ".songList",
     template: `
-      <ul class="songList">
-      </ul>
+        <li>
+          <svg class="icon icon-music" aria-hidden="true">
+              <use xlink:href="#icon-music"></use>
+          </svg>
+          <div class="songInfo">
+            <p title="{{name}}" class="song">{{name}}</p>
+            <p title="{{singer}}" class="singer">
+              <svg class="icon icon-music" aria-hidden="true">
+                  <use xlink:href="#icon-geshou"></use>
+              </svg>
+              {{singer}}
+            </p>
+          </div>
+        </li>
     `,
     render(data){
-      $(this.el).html(this.template)
-      $(this.el).find('.songList').empty()
+      // $(this.el).html(this.template)
+      $(this.el).empty()
       let {songs, selectSongId} = data
       songs.map((song) => {
-        let $li = $('<li></li>').text(song.name).attr('data-song-id', song.id)
+        let $li = $(
+          this.template.replace(/{{name}}/g, song.name)
+          .replace(/{{singer}}/g, song.singer)
+        ).attr('data-song-id', song.id)
         if(song.id === selectSongId){
           $li.addClass('active')
         }
-        $(this.el).find('.songList').append($li)
+        $(this.el).append($li)
       })
     },
     clearActive(){
@@ -41,8 +56,6 @@
     init(view, model){
       this.view = view
       this.model = model
-      //将ul渲染进模板
-      this.view.render(this.model.data)
       this.bindEvents()
       this.bindEventHub()
       this.getAllSongs()
@@ -87,6 +100,13 @@
             songs[i] = data
           }
         }
+        this.view.render(this.model.data)
+      })
+      window.eventHub.on('delete', (data) => {
+        this.model.data.songs = this.model.data.songs.filter((song) => {
+          return song.id !== data.id
+        })
+        this.model.data.selectSongId = undefined
         this.view.render(this.model.data)
       })
     }

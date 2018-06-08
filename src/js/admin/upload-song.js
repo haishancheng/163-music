@@ -1,18 +1,25 @@
 {
   let view = {
-    el: '.uploadArea',
+    el: '.uploadPage',
     // template中没有数据变化的可以不弄过来，所以new-song.js中的view也可以不弄template
     loadProgressBar(percent){
       let width = $(this.el).find('.loading').width(percent + '%').width()
-      $(this.el).find('.loading').width(width - 6)
+      $(this.el).find('.loading').width(width - 10)
     },
     resetLoadProgressBar(){
       $(this.el).find('.loading').width(0)
+    },
+    show(){
+      $(this.el).addClass('active')
+    },
+    hide(){
+      $(this.el).removeClass('active')
     }
   }
   let model = {
     data: {
-      isloading: false
+      isloading: false,
+      isEditing: false,
     }
   }
   let controller = {
@@ -20,6 +27,32 @@
       this.view = view
       this.model = model
       this.initQiniu()
+      this.bindEventHub()
+    },
+    bindEventHub(){
+      window.eventHub.on('select',() => {
+        this.model.data.isEditing = false
+        this.view.hide()
+      })
+      window.eventHub.on('new',() => {
+        //用户上传歌曲到七牛完毕，正在编辑歌曲准备存入leanclound时，此时点击新建歌曲应该不使得当前页面出现
+        if(!this.model.data.isEditing){
+          this.model.data.isEditing = false
+          this.view.show()
+        }
+      })
+      window.eventHub.on('afterUpload',() => {
+        this.view.hide()
+        this.model.data.isEditing = true
+      })
+      window.eventHub.on('create',() => {
+        this.model.data.isEditing = false
+        this.view.show()
+      })
+      window.eventHub.on('delete',() => {
+        this.model.data.isEditing = false
+        this.view.show()
+      })
     },
     initQiniu() {
       var uploader = Qiniu.uploader({
@@ -54,13 +87,13 @@
           'FileUploaded': (up, file, info) => {
             this.view.resetLoadProgressBar()
             this.model.data.isloading = false
-            window.eventHub.emit('afterUpload')
             // 每个文件上传成功后，处理相关的事情
             var domain = up.getOption('domain');
             var response = JSON.parse(info.response);
             // 获取上传成功后的文件的Url
             var sourceLink = "http://" + domain + "/" + encodeURIComponent(response.key);
-            window.eventHub.emit('new', {url: sourceLink, name: response.key})
+            window.eventHub.emit('afterUpload', {url: sourceLink, name: response.key})
+            // window.eventHub.emit('new', )
           },
           'Error': function (up, err, errTip) {
             this.model.data.isloading = false

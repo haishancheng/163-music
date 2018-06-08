@@ -6,6 +6,12 @@
     `,
     render(data){
       $(this.el).html(this.template)
+    },
+    active(){
+      $(this.el).addClass('active')
+    },
+    deActive(){
+      $(this.el).removeClass('active')
     }
   }
 
@@ -16,27 +22,30 @@
       this.view = view
       this.model = model
       this.view.render(this.model.data)
-      this.active()
+      this.view.active()
       this.bindEvents()
-      window.eventHub.on('new',() => {
-        this.active()
-      })
-      window.eventHub.on('select', (data) => {
-        this.deActive()
-      })
+      this.bindEventHub()
     },
     bindEvents(){
       $(this.view.el).on('click', () => {
-        this.active()
+        this.view.active()
         window.eventHub.emit('new')
       })
     },
-    active(){
-      $(this.view.el).addClass('active')
-    },
-    deActive(){
-      $(this.view.el).removeClass('active')
-    } 
+    bindEventHub(){
+      window.eventHub.on('new',() => {
+        this.view.active()
+      })
+      window.eventHub.on('select', (data) => {
+        this.view.deActive()
+      })
+      window.eventHub.on('create', () => {
+        this.view.active()
+      })
+      window.eventHub.on('delete', () => {
+        this.view.active()
+      })
+    }
   }
 
   controller.init(view, model)

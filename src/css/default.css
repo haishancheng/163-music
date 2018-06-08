@@ -10,115 +10,316 @@ input{font: inherit;}
 body{
   font-size: 12px;
   line-height: 1.5;
-}
-
-/* layout */
-.page{
-  display: flex;
   height: 100vh;
+  display: flex;
 }
-.page > aside{
-  width: 200px;
+.clearfix::after{
+  content: '';
+  display: block;
+  clear: both;
 }
-.page > main{
-  /* 自适应 */
-  flex-grow: 1;
-  padding-left: 20px;
+/* iconfont */
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .1);
 }
 
-/* aside区域 */
+/* neteaseMusic */
+.neteaseMusic{
+  display: flex;
+  margin: auto;
+  width: 1000px;
+  height: 670px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(64, 64, 64, 0.7);
+  flex-direction: column;
+  /* transition: all ease .3s; */
+  overflow: hidden;
+}
+
+/* header */
+header{
+  position: relative;
+  height: 60px;
+  background: #ba2502;
+}
+header .circle{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#f6be4f;
+  position: absolute;
+  top: 5px;
+  left: 27px;
+}
+header .circle::before{
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#ed6b60;
+  position: absolute;
+  left: calc(-100% - 8px);
+}
+header .circle::after{
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#62c655;
+  position: absolute;
+  left: calc(100% + 8px);
+}
+header .logo {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 160px;
+  height: 40px;
+  background: url(../img/logo.png) no-repeat;
+  background-size: contain;
+}
+
+/* main */
+main{
+  flex-grow: 1;
+  display: flex;
+  height: calc(100% - 60px);
+}
+/* main > aside */
 aside{
   display: flex;
   flex-direction: column;
+  width: 200px;
+  background: #f6f6f6;
 }
+
 .newSong{
-  padding: 10px;
+  border-top: 1px solid #c8c8c8;
+  background: linear-gradient(to top, #e6e6e6, #ffffff);
+  padding: 19px 0;
   text-align: center;
   cursor: pointer;
+  transition: all ease .1s;
+  border-right: 1px solid #c8c8c8;
+  color: #333333;
+  font-size: 16px;
 }
 .newSong.active{
-  background: #d4d4d4;
+  color: #ba2502;
+  background: linear-gradient(to bottom, #e6e6e6, #c8c8c8);
 }
 #songList-container{
   flex-grow: 1;
   overflow-y: auto;
-}
-.songList{
-  text-align: left;
-  border-top: 1px solid #888;
+  border-right: 1px solid #c8c8c8;
 }
 .songList > li{
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
-}
-.songList > li.active{
-  background: #d4d4d4;
-}
-.uploadArea{
+  display: flex;
+  align-items: center;
   position: relative;
 }
-.uploadArea .loading{
-  content: "";
+.songList > li:nth-of-type(odd){
+  background: #efefef;
+}
+.songList > li.active{
+  background: #c8c8c8;
+}
+.songList > li.active::before{
+  content: '';
   position: absolute;
-  top: 3px;
-  bottom: 3px;
-  margin-left: 3px;
-  width: 0%;
-  background: #428bca;
-  border-radius: 4px;
+  top: 5px;
+  left: 0;
+  bottom: 5px;
+  width: 5px;
+  background: #ba2502;
 }
-.uploadArea .draggable .clickable{
-  width: 200px;
-  border: 2px dashed #ddd;
-  border-radius: 4px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
+.songList > li > svg.icon-music{
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
 }
-.uploadArea .draggable .clickable:hover{
-  background: #e6e6e6;
+.songList > li > .songInfo{
+  flex-grow: 1;
+  margin-left: 8px;
+}
+.songList > li > .songInfo > p{
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.songList > li > .songInfo >.song{
+  font-size: 13px;
+  line-height: 20px;
+}
+.songList > li:hover > .songInfo >.song{
+  color: #ba2502;
+}
+.songList > li > .songInfo > .singer{
+  font-size: 12px;
+  color: #494949;
+  line-height: 20px;
 }
 
-/* main区域 */
-main{
-  padding-top: 20px;
-  background: #d4d4d4;
-}
-.form {
-  font-size: 14px;
-}
-.form > .row{
-  margin: 20px 0;
-  display: flex;
-
-}
-.form > .row.actions{
-  margin-left: calc(4em + 5px);
-}
-.form > .row > label{
-  display: flex;
-  width: 4em;
-  justify-content: flex-end;
+/* main > uploadPage */
+.uploadPage,
+.infoPage{
+  width: 100%;
+  height: 100%;
+  justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  flex-direction: column;
+  display: none;
 }
-.form input[type=text]{
-  padding: 3px 8px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  height: 30px;
+.uploadPage.active{
+  display: flex;
 }
-.form input[type=button],
-.form input[type=submit],
-.form button{
-  height: 30px;
-  padding-left: 10px;
-  padding-right: 10px;
+.uploadPage .draggable{
+  width: 600px;
+  height: 400px;
+  border: 3px dashed #ddd;
+  border-radius: 15px;
+  line-height: 20px;
+  font-size: 18px;
+  color: #d7d7d7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.uploadPage .draggable .loading{
+  position: absolute;
+  /* top: calc(100% + 3px); */
+  height: 5px;
+  left: 5px;
+  bottom: 0px;
+  width: 0%;
+  background: #ed6b60;
+  border-radius: 3px;
+}
+.uploadPage .clickable{
+  border: 1px solid #ba2502;
+  padding: 10px;
+  width: 150px;
+  line-height: 20px;
+  font-size: 18px;
+  text-align: center;
+  color: #ba2502;
   border-radius: 5px;
+  cursor: pointer;
+  transition: all ease .3s;
+  position: relative;
+  top: 20px;
+  left: -226px;;
+}
+.uploadPage .clickable:hover{
+  background: #ba2502;
+  color: #eeeeee;
 }
 
-/* loading区域 */
+/* main > infoPage */
+.infoPage.active{
+  display: flex;
+}
+.showArea{
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 20px;
+  width: 490px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+.showArea {
+  font-size: 16px;
+}
+.showArea h1{
+  font-size: 24px;
+  text-align: center;
+}
+.showArea > .row{
+  display: flex;
+  flex-direction: column;
+
+}
+.showArea > .row > label{
+  padding: 17px 5px 3px;
+}
+.showArea > .row > input[type=text]{
+  padding: 0 10px;
+  height: 40px;
+  font-size: 16px;
+  color: #333333;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+}
+.showArea  .button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0 10px;
+}
+.showArea .button-wrapper .button{
+  padding: 10px 0;
+  width: 200px;
+  line-height: 20px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ba2502;
+}
+.showArea .button-wrapper .delete{
+  color: #eeeeee;
+  background: #ba2502;
+}
+.showArea .button-wrapper .confirm{
+  color: #ba2502;;
+}
+.showArea .button-wrapper .confirm:hover{
+  color: #eeeeee;
+  background: #ba2502;
+}
+.showArea .button-wrapper .delete::before,
+.showArea .button-wrapper .confirm::before{
+  font-size: 12px;
+  line-height: 12px;
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+  border: 1px solid;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.showArea .button-wrapper .delete::before{
+  content: '!';
+  color: #ba2502;
+  background: #eeeeee;
+}
+.showArea .button-wrapper .confirm::before{
+  content: '✔';
+  color: #eeeeee;
+  background: #ba2502;
+}
+
+/* loading区域  目前未启用*/
 .site-loading{
   visibility: hidden;
   position: fixed;

@@ -1,24 +1,26 @@
 {
   let view = {
-    el: ".page > main",
+    el: ".infoPage",
     template: `
-      <form class="form">
-        <div class="row">
-          <label>歌名</label>
-          <input type="text" name="name" value="__name__">
-        </div>
-        <div class="row">
-          <label>歌手</label>
-          <input type="text" name="singer" value="__singer__">
-        </div>
-        <div class="row">
-          <label>外链</label>
-          <input type="text" name="url" value="__url__">
-        </div>
-        <div class="row actions">
-          <button type="submit">保存</button>
-        </div>
-      </form>
+      <div class="showArea">
+          <h1>编辑歌曲</h1>
+          <div class="row">
+            <label>歌曲名称</label>
+            <input type="text" name="name" value="__name__">
+          </div>
+          <div class="row">
+            <label>歌手</label>
+            <input type="text" name="singer" value="__singer__">
+          </div>
+          <div class="row">
+            <label>歌曲外链</label>
+            <input type="text" name="url" value="__url__">
+          </div>
+          <div class="button-wrapper">
+              <div class="button delete">删&nbsp;&nbsp;除</div>
+              <div class="button confirm">确&nbsp;&nbsp;定</div>
+          </div>
+      </div>
     `,
     render(data = {}){//es6语法，如果没有传data或者data为undefined，那么data等于{}
       let placeholders = ['name', 'singer', 'url', 'id']
@@ -27,17 +29,15 @@
         html = html.replace(`__${placeholder}__`, data[placeholder] || '')//data[placeholder]为undefined的话就换成''
       })
       $(this.el).html(html)
-      if(data.id){
-        //渲染的时候有id传过来就是编辑歌曲
-        $(this.el).prepend('<h1>编辑歌曲</h1>')
-      }else{
-        // 否则就是新建歌曲
-        $(this.el).prepend('<h1>新建歌曲</h1>')
-      }
-      
     },
     reset(){
       this.render({})
+    },
+    show(){
+      $(this.el).addClass('active')
+    },
+    hide(){
+      $(this.el).removeClass('active')
     }
   }
 
@@ -55,7 +55,6 @@
         // ②...attributes表示将attribute中的内容，加入到目前对象中
         // ③所以{id: id, name: attributes.name, singer: attributes.singer, url: attributes.url}这一大串就变成了
         Object.assign(this.data, {id, ...attributes})
-        console.log('存入后得到的值', this.data)
       })
     },
     update(data){
@@ -66,6 +65,13 @@
       return song.save().then((newSong) => {
         Object.assign(this.data, {id: newSong.id, ...newSong.attributes})
       })
+    },
+    delete(data){
+      var song = AV.Object.createWithoutData('Song', this.data.id);
+      return song.destroy().then((success) => {
+        this.data = {name:'', singer:'', url:'', id:''}
+        return success.id
+      });
     }
   }
 
@@ -75,30 +81,9 @@
       this.model = model
       this.view.render(this.model.data)
       this.bindEvents()
-      window.eventHub.on('select', (data) => {
-        this.model.data = data
-        this.view.render(this.model.data)
-      })
-      window.eventHub.on('new',(data) => {
-        if(this.model.data.id){
-          //只有在点击歌曲列表之后,才有id
-          //点击歌曲列表之后, song-list模块会将id传过来，此时this.model.data.id有数据的
-          if(data===undefined){
-            // 点击歌曲列表后，点击新建歌曲
-            this.model.data = {name:'', singer:'', url:'', id:''}
-          } else {
-            // 点击歌曲列表后，点击操作上传歌曲
-            this.model.data = data
-          }
-        }else{
-          //不点击歌曲列表
-          Object.assign(this.model.data, data)
-        }
-        this.view.render(this.model.data)
-      })
+      this.bindEventHub()
     },
     create(){
-      console.log(1)
       let needs = ['name', 'singer', 'url']
       let data = {}
       needs.map((need) => {
@@ -115,25 +100,31 @@
         var string = JSON.stringify(this.model.data)
         var obj = JSON.parse(string)
         /* ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆ */
+        //创建成功后通知song-list显示，并通知upload-song显示，并通知本模块隐藏
         window.eventHub.emit('create', obj)
         //不重置的话，连续存会有问题
         this.model.data = {name:'', singer:'', url:'', id:''}
       })
     },
     update(){
-      console.log(2)
       let needs = ['name', 'singer', 'url']
       let data = {}
       needs.map((need) => {
         data[need] = $(this.view.el).find(`[name="${need}"]`).val()
       })
       this.model.update(data).then(() => {
+        //更新成功后通知song-list更新
         window.eventHub.emit('update', JSON.parse(JSON.stringify(this.model.data))) //同上面的新建，需要深拷贝
       })
     },
+    delete(){
+      this.model.delete(this.model.data).then((id) => {
+        //删除成功后通知song-list更新，并通知upload-song显示，并通知本模块隐藏
+        window.eventHub.emit('delete', {id: id})
+      })
+    },
     bindEvents(){
-      $(this.view.el).on('submit', 'form', (e) => {
-        e.preventDefault()
+      $(this.view.el).on('click', '.confirm', (e) => {
         if(this.model.data.id){
           //id存在，相当于已存入数据库的，修改的歌曲
           this.update()
@@ -141,8 +132,38 @@
           //id不存在，相当于未存入数据库的，新建的歌曲
           this.create()
         }
-
-        
+      }),
+      $(this.view.el).on('click', '.delete', (e) => {
+        if(this.model.data.id){
+          //id存在，相当于已存入数据库的，修改的歌曲
+          this.delete()
+        }
+      })
+    },
+    bindEventHub(){
+      window.eventHub.on('select', (data) => {
+        this.model.data = data
+        this.view.show()
+        this.view.render(this.model.data)
+      })
+      window.eventHub.on('new',(data) => {
+        //用户上传歌曲到七牛完毕，正在编辑歌曲准备存入leanclound时，此时点击新建歌曲应该不使得当前页面消失
+        //根据是否有id来判断，是否是点击歌曲后才点击的新建歌曲按钮
+        if(this.model.data.id){
+          this.model.data = {name:'', singer:'', url:'', id:''}
+          this.view.hide()
+        }
+      })
+      window.eventHub.on('afterUpload',(data) => {
+        this.view.show()
+        Object.assign(this.model.data, data)
+        this.view.render(this.model.data)
+      })
+      window.eventHub.on('create', () => {
+        this.view.hide()
+      })
+      window.eventHub.on('delete', () => {
+        this.view.hide()
       })
     }
   }
