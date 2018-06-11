@@ -14,7 +14,7 @@
       if(lyrics){
         lyrics.split('\n').map((lineLyric) => {
           let p = document.createElement('p')
-          let regex = /\[([\d:.]+)\](.+)/
+          let regex = /\[([\d:.]+)\](.*)/
           let matches = lineLyric.match(regex)
           if(matches){
             p.textContent = matches[2]
@@ -32,22 +32,28 @@
       }
     },
     showLyric(time){
+      console.log('调用了一次',time)
       let $allP = $(this.el).find('.lyric > .lines > p')
       let $findP
+      
       for(let i = 0; i < $allP.length; i++){
+        console.log('i的过程',i)
         if(i === $allP.length -1){
           $findP = $allP.eq(i)
-          
           break
         } else{
           let currentTime = $allP.eq(i).attr('data-time')
           let nextTime = $allP.eq(i + 1).attr('data-time')
-          if( currentTime <= time && time < nextTime){
+          //time === 0的判断是为了排除第一句歌词时间就大于0，导致time为0的时候找不到对应的p，从而找到最后一个p
+          if(time < nextTime){
+            console.log('中')
+            console.log('i',i)
             $findP = $allP.eq(i)
             break
           }
         }
       }
+     
       let pHeight = $findP.offset().top
       let linesHeight = $(this.el).find('.lyric >.lines').offset().top//这里算的是lines距离顶部的高度，而不是lyric距离顶部的高度，因为下面是一次性移动lines（lines上面只能有一个transform:translateY属性），而不是叠加移动！！！*****
       let height = pHeight - linesHeight
