@@ -1,21 +1,36 @@
 {
   let view = {
     el: '#app',
-    template = `
-    `
+    render(data){
+      let {song} = data
+      $(this.el).find('.page-cover').css('background-image', `url(${song.cover})`)
+      $(this.el).find('.cover').css('background-image', `url(${song.cover})`)
+      $(this.el).find('audio').attr('src', song.url)
+    },
+    play(){
+      $(this.el).find('.disc-container').addClass('playing')
+      $(this.el).find('audio')[0].play()
+    },
+    pause(){
+      $(this.el).find('.disc-container').removeClass('playing')
+      $(this.el).find('audio')[0].pause()
+    }
   }
 
   let model = {
     data: {
-      id: '',
-      name: '',
-      singer: '',
-      url: ''
+      song:{
+        id: '',
+        name: '',
+        singer: '',
+        url: '',
+        cover: ''
+      }
     },
     get(id){
       var query = new AV.Query('Song')
       return query.get(id).then((song) => {
-        Object.assign(this.data, {id: song.id, ...song.attributes})
+        Object.assign(this.data.song, {id: song.id, ...song.attributes})
       })
     }
   }
@@ -27,6 +42,16 @@
       let id = this.getSongId()
       this.model.get(id).then(() => {
         this.view.render(this.model.data)
+        this.view.play()
+      })
+      this.bindEvents()
+    },
+    bindEvents(){
+      $(this.view.el).find('.icon-play').on('click', ()=>{
+        this.view.play()
+      })
+      $(this.view.el).find('.icon-pause').on('click', ()=>{
+        this.view.pause()
       })
     },
     getSongId(){

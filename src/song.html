@@ -4,15 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>歌曲播放</title>
+  <link rel="stylesheet" href="./css/song.css">
   <style>
   </style>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app" class="page">
+    <audio src="#"></audio>
+    <div class="page-cover"></div>
+    <div class="disc-container playing">
+      <img class="pointer" src="./img/pointer.png" alt="">
+      <div class="disc">
+        <div class="icon-wrapper">
+          <svg class="icon icon-play">
+            <use xlink:href="#icon-play1"></use>
+          </svg>
+          <svg class="icon icon-pause">
+            <use xlink:href="#icon-pause"></use>
+          </svg>
+        </div>
+        <img class="ring" src="./img/dist.png" alt="">
+        <img class="light" src="./img/dist-light.png" alt="">
+        <div class="cover"></div>
+      </div>
+    </div>
+    <div class="song-description">
+      <h1>太平洋的风-胡德夫</h1>
+      <div class="lyric">
+        <div class="lines">
+          当我想起你的时候
+        </div>
+      </div>
+    </div>
+    <div class="links">
+      <a href="#">打开</a>
+      <a class="main" href="#">下载</a>
+    </div>
+  </div>
+  <script src="//at.alicdn.com/t/font_697646_3j8gtqcqo01nstt9.js"></script>
   <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
   <script src="./js/initializers/av.js"></script>
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="./js/admin/event-hub.js"></script>
   <script src="./js/song/play-song.js"></script>
 </body>
-</html>
+</html> 
