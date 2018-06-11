@@ -44,7 +44,7 @@
         } else{
           let currentTime = $allP.eq(i).attr('data-time')
           let nextTime = $allP.eq(i + 1).attr('data-time')
-          //time === 0的判断是为了排除第一句歌词时间就大于0，导致time为0的时候找不到对应的p，从而找到最后一个p
+          //这里不能用currentTime <= time && time < nextTime)，因为前几句歌词的的time大于0的时候，会找不到对应的p，从而找到最后一个p，导致一开始lines块就上移
           if(time < nextTime){
             console.log('中')
             console.log('i',i)
