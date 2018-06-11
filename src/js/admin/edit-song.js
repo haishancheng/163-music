@@ -20,6 +20,10 @@
             <label>封面外链</label>
             <input type="text" name="cover" value="__cover__">
           </div>
+          <div class="row">
+            <label>歌词</label>
+            <textarea name="lyrics">__lyrics__</textarea>
+          </div>
           <div class="button-wrapper">
               <div class="button delete">删&nbsp;&nbsp;除</div>
               <div class="button confirm">确&nbsp;&nbsp;定</div>
@@ -27,7 +31,7 @@
       </div>
     `,
     render(data = {}){//es6语法，如果没有传data或者data为undefined，那么data等于{}
-      let placeholders = ['name', 'singer', 'url', 'id', 'cover']
+      let placeholders = ['name', 'singer', 'url', 'id', 'cover', 'lyrics']
       let html = this.template
       placeholders.map((placeholder) => {
         html = html.replace(`__${placeholder}__`, data[placeholder] || '')//data[placeholder]为undefined的话就换成''
@@ -47,7 +51,7 @@
 
   let model = {
     data: {
-      name:'', singer:'', url:'', id:'', cover:''
+      name:'', singer:'', url:'', id:'', cover:'', lyrics:''
     },
     create(data){
       var Song = AV.Object.extend('Song');
@@ -67,6 +71,7 @@
       song.set('singer', data.singer);
       song.set('url', data.url);
       song.set('cover', data.cover);
+      song.set('lyrics', data.lyrics);
       return song.save().then((newSong) => {
         Object.assign(this.data, {id: newSong.id, ...newSong.attributes})
       })
@@ -74,7 +79,7 @@
     delete(data){
       var song = AV.Object.createWithoutData('Song', this.data.id);
       return song.destroy().then((success) => {
-        this.data = {name:'', singer:'', url:'', id:'', cover:''}
+        this.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
         return success.id
       });
     }
@@ -89,7 +94,7 @@
       this.bindEventHub()
     },
     create(){
-      let needs = ['name', 'singer', 'url', 'cover']
+      let needs = ['name', 'singer', 'url', 'cover', 'lyrics']
       let data = {}
       needs.map((need) => {
         data[need] = $(this.view.el).find(`[name="${need}"]`).val()
@@ -108,11 +113,11 @@
         //创建成功后通知song-list显示，并通知upload-song显示，并通知本模块隐藏
         window.eventHub.emit('create', obj)
         //不重置的话，连续存会有问题
-        this.model.data = {name:'', singer:'', url:'', id:'', cover:''}
+        this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
       })
     },
     update(){
-      let needs = ['name', 'singer', 'url', 'cover']
+      let needs = ['name', 'singer', 'url', 'cover', 'lyrics']
       let data = {}
       needs.map((need) => {
         data[need] = $(this.view.el).find(`[name="${need}"]`).val()
@@ -155,7 +160,7 @@
         //用户上传歌曲到七牛完毕，正在编辑歌曲准备存入leanclound时，此时点击新建歌曲应该不使得当前页面消失
         //根据是否有id来判断，是否是点击歌曲后才点击的新建歌曲按钮
         if(this.model.data.id){
-          this.model.data = {name:'', singer:'', url:'', id:'', cover:''}
+          this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
           this.view.hide()
         }
       })

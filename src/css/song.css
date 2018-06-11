@@ -22,9 +22,9 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: transparent no-repeat center;
+  background: transparent url(http://p9lfootse.bkt.clouddn.com/default-show.jpg) no-repeat center;
   background-size: cover;
-  filter: blur(8px);
+  filter: blur(10px);
   z-index: -1;
 }
 /* disc-container */
@@ -56,7 +56,7 @@
   background: red;
   border-radius: 50%;
   position: absolute;
-  background: transparent no-repeat center;
+  background: transparent url(http://p9lfootse.bkt.clouddn.com/default-show.jpg) no-repeat center;
   background-size: cover;
   animation: circle 20s infinite linear; 
   animation-play-state: paused;
@@ -86,18 +86,22 @@
 /* song-description */
 .song-description{
   flex-grow: 1;
-  color: #AEABAC;
   text-align: center;
   line-height: 2;
   margin-top: 20px;
 }
-.song-description h1{
+.song-description h1>.name{
   color: white;
   font-size: 18px;
+}
+.song-description h1>.singer{
+  color: #ccc;
+  font-size: 14px;
 }
 .song-description p{
   font-size: 14px;
   line-height: 24px;
+  color: #AEABAC;
 }
 .song-description .lines{
   transition: transform 0.3s;
