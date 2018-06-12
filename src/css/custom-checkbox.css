@@ -1,0 +1,51 @@
+input[type=checkbox]{
+    /*同样，首先去除浏览器默认样式*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /*编辑我们自己的样式*/
+    position: relative;
+    background: #fff;
+    border: 1px solid #ed6b60;
+    width: 56px;
+    height: 28px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    /*增加动画*/
+    -webkit-transition: all ease-in-out 300ms;
+    -moz-transition: all ease-in-out 300ms;
+    transition: all ease-in-out 300ms;
+    outline: none;
+    cursor: pointer;
+}
+input[type=checkbox]:after{
+    content: 'no';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: #ed6b60;
+    color: #fff;
+    text-align: center;
+    line-height: 22px;
+    /*增加动画*/
+    -webkit-transition: all ease-in-out 300ms;
+    -moz-transition: all ease-in-out 300ms;
+    transition: all ease-in-out 300ms;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+input[type=checkbox]:checked{
+    background: #ed6b60;
+}
+input[type=checkbox]:checked:after{
+    content: 'yes';
+    left: 30px;
+    background: #fff;
+    color: #ed6b60;
+}

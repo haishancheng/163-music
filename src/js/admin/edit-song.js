@@ -24,6 +24,22 @@
             <label>歌词</label>
             <textarea name="lyrics">__lyrics__</textarea>
           </div>
+          <div class="row action">
+            <div class="hotSong">
+              <label>热门歌曲</label>
+              <svg class="icon icon-hot" aria-hidden="true">
+                <use xlink:href="#icon-hot"></use>
+              </svg>
+              <input class="isHot" type="checkbox"/>
+            </div>
+            <div class="newestSong">
+              <label>最新歌曲</label>
+              <svg class="icon icon-newest" aria-hidden="true">
+                <use xlink:href="#icon-newest"></use>
+              </svg>
+              <input class="isNewest" type="checkbox"/>
+            </div>
+          </div>
           <div class="button-wrapper">
               <div class="button delete">删&nbsp;&nbsp;除</div>
               <div class="button confirm">确&nbsp;&nbsp;定</div>
@@ -31,12 +47,16 @@
       </div>
     `,
     render(data = {}){//es6语法，如果没有传data或者data为undefined，那么data等于{}
+    // $(this.el).empty()
       let placeholders = ['name', 'singer', 'url', 'id', 'cover', 'lyrics']
       let html = this.template
       placeholders.map((placeholder) => {
         html = html.replace(`__${placeholder}__`, data[placeholder] || '')//data[placeholder]为undefined的话就换成''
       })
       $(this.el).html(html)
+      //☆☆☆☆☆这一句话放在上一句的前面就没有效果☆☆☆☆☆
+      $(this.el).find('.hotSong .isHot').prop('checked', data['isHot']||false)
+      $(this.el).find('.newestSong .isNewest').prop('checked', data['isNewest']||false)
     },
     reset(){
       this.render({})
@@ -51,7 +71,7 @@
 
   let model = {
     data: {
-      name:'', singer:'', url:'', id:'', cover:'', lyrics:''
+      name:'', singer:'', url:'', id:'', cover:'', lyrics:'', isHot: false, isNewest: false
     },
     create(data){
       var Song = AV.Object.extend('Song');
@@ -72,6 +92,8 @@
       song.set('url', data.url);
       song.set('cover', data.cover);
       song.set('lyrics', data.lyrics);
+      song.set('isHot', data.isHot);
+      song.set('isNewest', data.isNewest);
       return song.save().then((newSong) => {
         Object.assign(this.data, {id: newSong.id, ...newSong.attributes})
       })
@@ -79,7 +101,7 @@
     delete(data){
       var song = AV.Object.createWithoutData('Song', this.data.id);
       return song.destroy().then((success) => {
-        this.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
+        this.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:'', isHot:false, isNewest:false}
         return success.id
       });
     }
@@ -94,10 +116,16 @@
       this.bindEventHub()
     },
     create(){
-      let needs = ['name', 'singer', 'url', 'cover', 'lyrics']
+      let needs = ['name', 'singer', 'url', 'cover', 'lyrics', 'isHot', 'isNewest']
       let data = {}
       needs.map((need) => {
-        data[need] = $(this.view.el).find(`[name="${need}"]`).val()
+        if(need === 'isHot'){
+          data[need] = $(this.view.el).find('.isHot').is(":checked")
+        }else if(need === 'isNewest'){
+          data[need] = $(this.view.el).find('.isNewest').is(":checked")
+        }else{
+          data[need] = $(this.view.el).find(`[name="${need}"]`).val()
+        }
       })
       this.model.create(data).then(() => {
         this.view.reset()
@@ -113,14 +141,20 @@
         //创建成功后通知song-list显示，并通知upload-song显示，并通知本模块隐藏
         window.eventHub.emit('create', obj)
         //不重置的话，连续存会有问题
-        this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
+        this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:'', isHot:false, isNewest:false}
       })
     },
     update(){
-      let needs = ['name', 'singer', 'url', 'cover', 'lyrics']
+      let needs = ['name', 'singer', 'url', 'cover', 'lyrics', 'isHot', 'isNewest']
       let data = {}
       needs.map((need) => {
-        data[need] = $(this.view.el).find(`[name="${need}"]`).val()
+        if(need === 'isHot'){
+          data[need] = $(this.view.el).find('.isHot').is(":checked")
+        }else if(need === 'isNewest'){
+          data[need] = $(this.view.el).find('.isNewest').is(":checked")
+        }else{
+          data[need] = $(this.view.el).find(`[name="${need}"]`).val()
+        }
       })
       this.model.update(data).then(() => {
         //更新成功后通知song-list更新
@@ -160,7 +194,7 @@
         //用户上传歌曲到七牛完毕，正在编辑歌曲准备存入leanclound时，此时点击新建歌曲应该不使得当前页面消失
         //根据是否有id来判断，是否是点击歌曲后才点击的新建歌曲按钮
         if(this.model.data.id){
-          this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:''}
+          this.model.data = {name:'', singer:'', url:'', id:'', cover:'', lyrics:'', isHot: false, isNewest:false}
           this.view.hide()
         }
       })

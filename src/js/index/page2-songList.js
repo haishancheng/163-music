@@ -1,8 +1,9 @@
 {
   let view = {
-    el: 'section.newestMusic',
+    el: 'section.hotList',
     template: `
       <li>
+        <span class="order">{{order}}</span>
         <h3>{{name}}</h3>
         <p>
           <svg class="SQsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="#FE672E">
@@ -24,11 +25,14 @@
     },
     render(data){
       let {songs} = data
-      songs.map((song) => {
+      songs.map((song,index) => {
+        let order = (index + 1).toString().length === 2 ? (index + 1) : ('0' + (index + 1))
+        console.log(order)
         let $li = $(
           this.template.replace('{{name}}', song.name)
             .replace('{{singer}}', song.singer)
             .replace('{{id}}', song.id)
+            .replace('{{order}}', order)
         )
         this.$el.find('ol.songList').append($li)
       })
@@ -40,6 +44,7 @@
     },
     fetch(){
       var query = new AV.Query('Song');
+      query.equalTo('isHot', true);
       return query.find().then((songs) => {
         this.data.songs = songs.map((song) => {
           return {id: song.id, ...song.attributes}
@@ -53,7 +58,6 @@
       this.view = view
       this.model = model
       this.view.init()
-      //将ol.songList先渲染进页面
       this.view.render(this.model.data)
       this.model.fetch().then(() => {
         this.view.render(this.model.data)

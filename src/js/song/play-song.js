@@ -6,6 +6,9 @@
       if(song.cover){
         $(this.el).find('.page-cover').css('background-image', `url(${song.cover})`)
         $(this.el).find('.cover').css('background-image', `url(${song.cover})`)
+      }else{
+        $(this.el).find('.page-cover').css('background-image', `url(http://p9lfootse.bkt.clouddn.com/default-show.jpg)`)
+        $(this.el).find('.cover').css('background-image', `url(http://p9lfootse.bkt.clouddn.com/default-show.jpg})`)
       }
       $(this.el).find('audio').attr('src', song.url)
       $(this.el).find('.song-description h1>.name').text(`${song.name} - `)

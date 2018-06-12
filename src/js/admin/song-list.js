@@ -15,10 +15,15 @@
               {{singer}}
             </p>
           </div>
+          <svg class="icon icon-hot" aria-hidden="true">
+            <use xlink:href="#icon-hot"></use>
+          </svg>
+          <svg class="icon icon-newest" aria-hidden="true">
+            <use xlink:href="#icon-newest"></use>
+          </svg>
         </li>
     `,
     render(data){
-      // $(this.el).html(this.template)
       $(this.el).empty()
       let {songs, selectSongId} = data
       songs.map((song) => {
@@ -26,6 +31,16 @@
           this.template.replace(/{{name}}/g, song.name)
           .replace(/{{singer}}/g, song.singer)
         ).attr('data-song-id', song.id)
+        if(song.isHot){
+          $li.find('svg.icon-hot').show()
+        }else{
+          $li.find('svg.icon-hot').hide()
+        }
+        if(song.isNewest){
+          $li.find('svg.icon-newest').show()
+        }else{
+          $li.find('svg.icon-newest').hide()
+        }
         if(song.id === selectSongId){
           $li.addClass('active')
         }

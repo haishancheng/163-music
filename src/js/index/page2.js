@@ -21,6 +21,7 @@
       this.model = model
       this.view.init()
       this.bindEventHub()
+      this.loadSongListModule()
     },
     bindEventHub(){
       window.eventHub.on('selectTab', (tabName)=>{
@@ -30,7 +31,15 @@
           this.view.hide()
         }
       })
-    }
+    },
+    loadSongListModule(){
+      let script = document.createElement('script')
+      script.src = './js/index/page2-songList.js'
+      script.onload = function(){
+        console.log('page2-songList模块加载完毕')
+      }
+      document.body.appendChild(script)
+    },
   }
 
   controller.init(view, model)
