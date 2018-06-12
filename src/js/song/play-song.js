@@ -12,6 +12,7 @@
       $(this.el).find('.song-description h1>.singer').text(song.singer)
       let {lyrics} = song
       if(lyrics){
+        $(this.el).find('.lines').empty()
         lyrics.split('\n').map((lineLyric) => {
           let p = document.createElement('p')
           let regex = /\[([\d:.]+)\](.*)/
@@ -32,12 +33,10 @@
       }
     },
     showLyric(time){
-      console.log('调用了一次',time)
       let $allP = $(this.el).find('.lyric > .lines > p')
       let $findP
       
       for(let i = 0; i < $allP.length; i++){
-        console.log('i的过程',i)
         if(i === $allP.length -1){
           $findP = $allP.eq(i)
           break
@@ -46,8 +45,6 @@
           let nextTime = $allP.eq(i + 1).attr('data-time')
           //这里不能用currentTime <= time && time < nextTime)，因为前几句歌词的的time大于0的时候，会找不到对应的p，从而找到最后一个p，导致一开始lines块就上移
           if(time < nextTime){
-            console.log('中')
-            console.log('i',i)
             $findP = $allP.eq(i)
             break
           }
