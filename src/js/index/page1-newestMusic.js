@@ -40,6 +40,7 @@
     },
     fetch(){
       var query = new AV.Query('Song');
+      query.equalTo('isNewest', true);
       return query.find().then((songs) => {
         this.data.songs = songs.map((song) => {
           return {id: song.id, ...song.attributes}

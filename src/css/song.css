@@ -89,6 +89,12 @@
   text-align: center;
   line-height: 2;
   margin-top: 20px;
+  padding: 0 10px;
+}
+.song-description h1{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .song-description h1>.name{
   color: white;
@@ -99,6 +105,9 @@
   font-size: 14px;
 }
 .song-description p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 14px;
   line-height: 24px;
   height: 24px;

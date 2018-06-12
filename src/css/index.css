@@ -129,17 +129,21 @@ section.songSheet .songSheetList > li > p{
 section.newestMusic .songList > li,
 section.hotList .songList > li {
   position: relative;
-  margin-left: 10px;
-  padding-bottom: 6px;
-  padding-top: 5px;
+  padding: 5px 35px 6px 10px;
   border-bottom: 1px solid #E2E2E3;
 }
 section.newestMusic .songList > li > h3,
 section.hotList .songList > li > h3{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 17px;
 }
 section.newestMusic .songList > li > p,
 section.hotList .songList > li > p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 12px;
   color: #888;
 }
@@ -227,7 +231,7 @@ section.hotTop .hotIcon{
 section.hotTop .hotTime{
   margin-top: 10px;
   font-size: 12px;
-  color: #fffc;
+  color: #fff;
   z-index: 1;
 }
 
@@ -237,6 +241,7 @@ section.hotTop .hotTime{
 } */
 section.hotList .songList > li{
   margin-left: 40px;
+  padding-left: 0;
   position: relative;
 } 
 section.hotList .songList > li > .order{
@@ -252,4 +257,10 @@ section.hotList .songList > li:nth-child(1) > .order,
 section.hotList .songList > li:nth-child(2) > .order,
 section.hotList .songList > li:nth-child(3) > .order{
   color: #d43c33;
+}
+section.hotList .songList > .tip{
+  padding: 20px 0;
+  color: #999999;
+  text-align: center;
+  font-size: 14px;
 }
