@@ -18,7 +18,6 @@
       this.$el.find('.hotTop .month').text(month)
       this.$el.find('.hotTop .day').text(day)
     }
-
   }
 
   let model = {}
@@ -29,7 +28,7 @@
       this.model = model
       this.view.init()
       this.bindEventHub()
-      this.loadSongListModule()
+      this.loadSubModule('./js/index/page2-songList.js')
     },
     bindEventHub(){
       window.eventHub.on('selectTab', (tabName)=>{
@@ -40,14 +39,14 @@
         }
       })
     },
-    loadSongListModule(){
+    loadSubModule(path){
       let script = document.createElement('script')
-      script.src = './js/index/page2-songList.js'
+      script.src = path
       script.onload = function(){
-        console.log('page2-songList模块加载完毕')
+        console.log(`${path}模块加载完毕`)
       }
       document.body.appendChild(script)
-    },
+    }
   }
 
   controller.init(view, model)

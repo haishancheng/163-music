@@ -60,7 +60,7 @@
   </header>
   <main>
     <ol>
-      <li id="page1" class="active">
+      <li id="page1">
         <section class="songSheet">
           <h2 class="sectionTitle">推荐歌单</h2>
           <ol class="songSheetList">
@@ -146,12 +146,41 @@
           </ol>
         </section>
       </li>
-      <li id="page3">page3</li>
+      <li id="page3" class="active">
+        <section class="search-area">
+          <svg class="icon icon-search" aria-hidden="true">
+            <use xlink:href="#icon-search"></use>
+          </svg>
+          <input type="text" placeholder="搜索歌曲">
+        </section>
+        <section class="hot-search show">
+          <h2 class="sectionTitle">热门搜索</h2>
+          <ol class="hot-search-simple">
+            <li>可惜没如果</li>
+            <li>告白气球</li>
+            <li>人间精品起来嗨</li>
+            <li>あなたがいた森</li>
+            <li>绅士</li>
+            <li>演员</li>
+            <li>无敌</li>
+            <li>爱笑的眼睛</li>
+            <li>小幸运</li>
+            <li>エウテルペ</li>
+          </ol>
+        </section>
+        <section class="best-match">
+          <h2 class="sectionTitle">最佳匹配</h2>
+          <ol class="matchList"></ol>
+        </section>
+      </li>
     </ol>
+    <style>
+
+    </style>
   </main>
   <script src="../vendors/vconsole.min.js"></script>
-  <script src="//at.alicdn.com/t/font_395875_4hwrep7mypx8ncdi.js"></script>
-  <!-- <script src="//at.alicdn.com/t/font_697646_7dcsv0e3nt9h33di.js"></script> -->
+  <!-- <script src="//at.alicdn.com/t/font_395875_4hwrep7mypx8ncdi.js"></script> -->
+  <script src="//at.alicdn.com/t/font_697646_1chk2vna41g.js"></script>
   <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
   <script src="./js/initializers/av.js"></script>
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>

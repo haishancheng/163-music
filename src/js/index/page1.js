@@ -21,8 +21,8 @@
       this.model = model
       this.view.init()
       this.bindEventHub()
-      this.loadSongSheetModule()
-      this.loadNewestMusicModule()
+      this.loadSubModule('./js/index/page1-songSheet.js')
+      this.loadSubModule('./js/index/page1-newestMusic.js')
     },
     bindEventHub(){
       window.eventHub.on('selectTab', (tabName)=>{
@@ -34,21 +34,13 @@
       })
     },
     //用webpack的话可以直接import，没用的话加载子模块只能创建script标签，插入到html中
-    loadSongSheetModule(){
-      let script1 = document.createElement('script')
-      script1.src = './js/index/page1-songSheet.js'
-      script1.onload = function(){
-        console.log('songSheet模块加载完毕')
+    loadSubModule(path){
+      let script = document.createElement('script')
+      script.src = path
+      script.onload = function(){
+        console.log(`${path}模块加载完毕`)
       }
-      document.body.appendChild(script1)
-    },
-    loadNewestMusicModule(){
-      let script2 = document.createElement('script')
-      script2.src = './js/index/page1-newestMusic.js'
-      script2.onload = function(){
-        console.log('newestMusic模块加载完毕')
-      }
-      document.body.appendChild(script2)
+      document.body.appendChild(script)
     }
   }
 

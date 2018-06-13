@@ -80,7 +80,7 @@
         let {id, attributes} = newSong //es6解构语法，得到id和attributes的值
         // {id, ...attributes}也是es6语法: 
         // ①id: id,key和value相同的情况下，可以简写成一个
-        // ②...attributes表示将attribute中的内容，加入到目前对象中
+        // ②...attributes表示将attributes中的内容，加入到目前对象中
         // ③所以{id: id, name: attributes.name, singer: attributes.singer, url: attributes.url}这一大串就变成了
         Object.assign(this.data, {id, ...attributes})
       })
