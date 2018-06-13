@@ -298,6 +298,16 @@ section.search-area > .icon-search{
   position:absolute;
   left: 18px;
 }
+section.search-area > .icon-delete{
+  font-size: 16px;
+  position:absolute;
+  right: 18px;
+  color: #bbb;
+  display: none;
+}
+section.search-area > .icon-delete.show{
+  display: block;
+}
 /* page3 > hot-search */
 section.hot-search{
   display: none;

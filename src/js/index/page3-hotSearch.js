@@ -4,10 +4,10 @@
     init(){
       this.$el = $(this.el)
     },
-    hide(){
+    show(){
       this.$el.addClass('show')
     },
-    show(){
+    hide(){
       this.$el.removeClass('show')
     }
   }
