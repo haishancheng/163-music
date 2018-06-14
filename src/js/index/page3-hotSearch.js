@@ -48,7 +48,13 @@
     },
     bindEventHub(){
       window.eventHub.on('choose', ()=>{
-        this.view.$el.hide()
+        this.view.hide()
+      })
+      window.eventHub.on('clearSearch', ()=>{
+        this.view.show()
+      })
+      window.eventHub.on('searchSuccess', ()=>{
+        this.view.hide()
       })
     }
   }

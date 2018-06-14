@@ -22,15 +22,20 @@
       this.$el = $(this.el)
     },
     render(data){
-      data.songs.map((song) => {
-        let $li = $(
-          this.template.replace('{{name}}', song.name)
-                       .replace('{{singer}}', song.singer)
-                       .replace('{{id}}', song.id)
-        )
+      this.$el.find('.matchList').empty()
+      if(data.songs.length){
+        data.songs.map((song) => {
+          let $li = $(
+            this.template.replace('{{name}}', song.name)
+                        .replace('{{singer}}', song.singer)
+                        .replace('{{id}}', song.id)
+          )
+          this.$el.find('.matchList').append($li)
+        })
+      }else{
+        let $li = $('<p class="notFind">不好意思,没有你要听的歌 ╮(╯﹏╰)╭</p>')
         this.$el.find('.matchList').append($li)
-      })
-      
+      }
     },
     show(){
       this.$el.addClass('show')
@@ -57,6 +62,14 @@
       window.eventHub.on('choose', (data)=>{
         this.view.show()
         this.model.data = data
+        this.view.render(this.model.data)
+      })
+      window.eventHub.on('clearSearch', ()=>{
+        this.view.hide()
+      })
+      window.eventHub.on('searchSuccess', (data)=>{
+        this.view.show()
+        this.model.data.songs = data.songs
         this.view.render(this.model.data)
       })
     }

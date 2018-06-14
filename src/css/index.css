@@ -336,3 +336,7 @@ section.best-match{
 section.best-match.show{
   display: block;
 }
+section.best-match .notFind{
+  text-align: center;
+  margin-top: 20px;
+}

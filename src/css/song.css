@@ -14,9 +14,6 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #666;
-  position: relative;
-  z-index: -10;
 }
 /* page-cover */
 .page-cover{
@@ -25,7 +22,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: transparent no-repeat center;
+  background: #666 no-repeat center;
   background-size: cover;
   filter: blur(10px);
   z-index: -1;

@@ -15,7 +15,21 @@
     }
   }
 
-  let model = {}
+  let model = {
+    data:{
+      songs:[],
+      searchLock: false
+    },
+    search(keyword){
+      var query = new AV.Query('Song');
+      query.contains('name', keyword);
+      return query.find().then((songs) => {
+        this.data.songs = songs.map((song) => {
+          return {id: song.id, ...song.attributes}
+        })
+      })
+    }
+  }
 
   let controller = {
     init(view, model){
@@ -29,9 +43,22 @@
       this.view.$el.find('.icon-delete').on('click', (e) => {
         this.view.render()
         this.view.hideDeleteIcon()
+        window.eventHub.emit('clearSearch')
       })
-      this.view.$el.find('input').on('input propertychange',() => {
-        this.view.showDeleteIcon()
+      this.view.$el.find('input').on('input propertychange',(e) => {
+        if($(e.currentTarget).val() === ''){
+          this.view.hideDeleteIcon()
+          window.eventHub.emit('clearSearch')
+        }else{
+          this.view.showDeleteIcon()
+          this.model.searchLock = true
+          this.model.search($(e.currentTarget).val()).then(() => {
+            let string = JSON.stringify(this.model.data)
+            let object = JSON.parse(string)
+            window.eventHub.emit('searchSuccess', object)
+            this.model.searchLock = false
+          })
+        }
       })
     },
     bindEventHub(){

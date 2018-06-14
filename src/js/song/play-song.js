@@ -95,7 +95,6 @@
       let id = this.getSongId()
       this.model.get(id).then(() => {
         this.view.render(this.model.data)
-        this.view.play()
       })
       this.bindEvents()
     },
