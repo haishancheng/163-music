@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <title>歌单管理页面</title>
+  <link rel="stylesheet" href="./css/songSheetAdmin.css">
+</head>
+
+<body>
+  <div class="neteaseMusic">
+    <header>
+      <div class="circle"></div>
+      <div class="logo"></div>
+    </header>
+    <main>
+      <aside class="left">
+        <div class="songSheetList-wrapper">
+          <ul class="songSheetList">
+          </ul>
+        </div>
+        <div class="newSongSheet">新建歌单</div>
+      </aside>
+      <div class="editArea-wrapper">
+          <div class="editArea">
+              <h1>编辑歌单</h1>
+              <div class="row">
+                <label>歌单名称</label>
+                <input type="text" name="name" value="__name__">
+              </div>
+              <div class="row">
+                <label>歌单简介</label>
+                <input type="text" name="singer" value="__singer__">
+              </div>
+              <div class="row">
+                <label>封面外链</label>
+                <input type="text" name="cover" value="__cover__">
+              </div>
+              <div class="button-wrapper">
+                  <div class="button delete">删&nbsp;&nbsp;除</div>
+                  <div class="button confirm">确&nbsp;&nbsp;定</div>
+              </div>
+          </div>
+      </div>
+      <aside class="right">
+        <div class="songList-wrapper">
+          <ul class="songList">
+            <li class="active">
+              <svg class="icon icon-music" aria-hidden="true">
+                  <use xlink:href="#icon-music"></use>
+              </svg>
+              <div class="songInfo">
+                <p title="{{name}}" class="song">{{name}}</p>
+                <p title="{{singer}}" class="singer">
+                  <svg class="icon icon-music" aria-hidden="true">
+                      <use xlink:href="#icon-geshou"></use>
+                  </svg>
+                  {{singer}}
+                </p>
+              </div>
+              <svg class="icon icon-hot" aria-hidden="true">
+                <use xlink:href="#icon-hot"></use>
+              </svg>
+              <svg class="icon icon-newest" aria-hidden="true">
+                <use xlink:href="#icon-newest"></use>
+              </svg>
+            </li>
+            <li>
+                <svg class="icon icon-music" aria-hidden="true">
+                    <use xlink:href="#icon-music"></use>
+                </svg>
+                <div class="songInfo">
+                  <p title="{{name}}" class="song">{{name}}</p>
+                  <p title="{{singer}}" class="singer">
+                    <svg class="icon icon-music" aria-hidden="true">
+                        <use xlink:href="#icon-geshou"></use>
+                    </svg>
+                    {{singer}}
+                  </p>
+                </div>
+                <svg class="icon icon-hot" aria-hidden="true">
+                  <use xlink:href="#icon-hot"></use>
+                </svg>
+                <svg class="icon icon-newest" aria-hidden="true">
+                  <use xlink:href="#icon-newest"></use>
+                </svg>
+              </li>
+              <li>
+                  <svg class="icon icon-music" aria-hidden="true">
+                      <use xlink:href="#icon-music"></use>
+                  </svg>
+                  <div class="songInfo">
+                    <p title="{{name}}" class="song">{{name}}</p>
+                    <p title="{{singer}}" class="singer">
+                      <svg class="icon icon-music" aria-hidden="true">
+                          <use xlink:href="#icon-geshou"></use>
+                      </svg>
+                      {{singer}}
+                    </p>
+                  </div>
+                  <svg class="icon icon-hot" aria-hidden="true">
+                    <use xlink:href="#icon-hot"></use>
+                  </svg>
+                  <svg class="icon icon-newest" aria-hidden="true">
+                    <use xlink:href="#icon-newest"></use>
+                  </svg>
+                </li>
+          </ul>
+        </div>
+      </aside>
+    </main> 
+    <div id="siteLoading" class="site-loading">
+    </div>
+  </div>
+
+  <script src="//at.alicdn.com/t/font_697646_lne8z2yjhc.js"></script>
+  <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
+  <script src="./js/initializers/av.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- moxie要在plupload之前引用 -->
+  <!-- <script src="../vendors/moxie.js"></script>
+  <script src="../node_modules/plupload/js/plupload.min.js"></script>
+  <script src="../node_modules/qiniu-js/dist/qiniu.min.js"></script> -->
+  <script src="./js/admin/event-hub.js"></script>
+  <!-- <script src="./js/admin/loading.js"></script> -->
+
+</body>
+
+</html>

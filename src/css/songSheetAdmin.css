@@ -1,0 +1,304 @@
+/* css reset */
+*{margin: 0;padding: 0;box-sizing: border-box;}
+*::after{box-sizing: border-box;}
+*::before{box-sizing: border-box;}
+ul,ol{list-style: none;}
+a{color: inherit;text-decoration: none;}
+input{font: inherit;}
+
+/* common css */
+body{
+  font-size: 12px;
+  line-height: 1.5;
+  height: 100vh;
+  display: flex;
+}
+.clearfix::after{
+  content: '';
+  display: block;
+  clear: both;
+}
+/* iconfont */
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .1);
+}
+
+/* neteaseMusic */
+.neteaseMusic{
+  display: flex;
+  margin: auto;
+  width: 1000px;
+  height: 600px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(64, 64, 64, 0.7);
+  flex-direction: column;
+  transition: all ease 1s;
+  overflow: hidden;
+}
+
+/* header */
+header{
+  position: relative;
+  height: 60px;
+  background: #ba2502;
+}
+header .circle{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#f6be4f;
+  position: absolute;
+  top: 5px;
+  left: 27px;
+}
+header .circle::before{
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#ed6b60;
+  position: absolute;
+  left: calc(-100% - 8px);
+}
+header .circle::after{
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:#62c655;
+  position: absolute;
+  left: calc(100% + 8px);
+}
+header .logo {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 160px;
+  height: 40px;
+  background: url(../img/logo.png) no-repeat;
+  background-size: contain;
+}
+
+/* main */
+main{
+  flex-grow: 1;
+  display: flex;
+  height: calc(100% - 60px);
+}
+
+/* main > aside(common) */
+aside.left,
+aside.right{
+  display: flex;
+  flex-direction: column;
+  background: #f6f6f6;
+}
+aside.left > .songSheetList-wrapper,
+aside.right > .songList-wrapper{
+  /* padding: 0 10px; */
+  flex-grow: 1;
+  overflow-y: auto;
+  border-right: 1px solid #c8c8c8;
+  width: 200px;
+}
+.songSheetList > li,
+.songList > li{
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* main > aside.left */
+.newSongSheet{
+  border-top: 1px solid #c8c8c8;
+  background: linear-gradient(to top, #e6e6e6, #ffffff);
+  padding: 19px 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all ease .1s;
+  border-right: 1px solid #c8c8c8;
+  color: #333333;
+  font-size: 16px;
+}
+.newSongSheet.active{
+  color: #ba2502;
+  background: linear-gradient(to bottom, #e6e6e6, #c8c8c8);
+}
+.songSheetList > li:nth-of-type(odd){
+  background: #efefef;
+}
+.songSheetList > li.active{
+  background: #c8c8c8;
+}
+.songSheetList > li.active::before{
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  bottom: 5px;
+  width: 5px;
+  background: #ba2502;
+}
+
+/* main > aside.right */
+aside.right > .songList-wrapper{
+  width: 180px;
+  border-left: 1px solid #c8c8c8;
+}
+.songList > li::after{
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 100%;
+  width: calc(100% - 10px);
+  height: 1px;
+  background: #ddd;
+  /* border-bottom: 1px solid #ccc; */
+}
+.songList > li.active{
+  background: #c8c8c8;
+}
+.songList > li > .songInfo{
+  width: 100%;
+  padding: 0 45px 0 27px;
+}
+.songList > li > .songInfo > p{
+  width: 104px;
+  margin-right: 46px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.songList > li > .songInfo >.song{
+  font-size: 13px;
+  line-height: 20px;
+}
+.songList > li > .songInfo > .singer{
+  font-size: 12px;
+  color: #494949;
+  line-height: 20px;
+}
+.songList > li > svg.icon-music{
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  margin-left: 5px;
+}
+
+/* main > editArea-wrapper */
+.editArea-wrapper{
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+}
+.editArea{
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  width: 490px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+}
+.editArea h1{
+  font-size: 24px;
+  text-align: center;
+}
+.editArea > .row{
+  display: flex;
+  flex-direction: column;
+}
+.editArea > .row label{
+  padding: 5px 5px;
+  font-weight: 800;
+}
+.editArea > .row > input[type=text]{
+  padding: 0 10px;
+  height: 35px;
+  font-size: 14px;
+  color: #333333;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+}
+.editArea > .row > textarea{
+  padding: 10px 10px;
+  height: 130px;
+  font-size: 14px;
+  color: #333333;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  resize: none;
+}
+
+
+.editArea  .button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0 10px;
+}
+.editArea .button-wrapper .button{
+  padding: 10px 0;
+  width: 200px;
+  line-height: 20px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ba2502;
+}
+.editArea .button-wrapper .delete{
+  color: #eeeeee;
+  background: #ba2502;
+}
+.editArea .button-wrapper .confirm{
+  color: #ba2502;;
+}
+.editArea .button-wrapper .confirm:hover{
+  color: #eeeeee;
+  background: #ba2502;
+}
+.editArea .button-wrapper .delete::before,
+.editArea .button-wrapper .confirm::before{
+  font-size: 12px;
+  line-height: 12px;
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+  border: 1px solid;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.editArea .button-wrapper .delete::before{
+  content: '!';
+  color: #ba2502;
+  background: #eeeeee;
+}
+.editArea .button-wrapper .confirm::before{
+  content: '✔';
+  color: #eeeeee;
+  background: #ba2502;
+}
